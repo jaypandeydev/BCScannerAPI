@@ -23,5 +23,5 @@ func Setup(env *config.Env, timeout time.Duration, db mongo.Database, gin *gin.E
 	// All Private APIs
 	NewProfileRouter(env, timeout, db, protectedRouter)
 	NewTaskRouter(env, timeout, db, protectedRouter)
-	//SetupUserRouter(env,timeout,db,protectedRouter)
+	SetupUserRouter(env, timeout, db, protectedRouter)
 }

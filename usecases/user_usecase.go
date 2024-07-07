@@ -3,33 +3,55 @@ package usecases
 
 import (
 	"BCScanner/domain"
-	"BCScanner/interfaces"
+	"context"
+	"time"
+	//"BCScanner/repository"
 )
 
 type UserUsecase struct {
-	UserRepository interfaces.UserRepository
+	UserRepository domain.UserRepository
+	contextTimeout time.Duration
 }
 
-func NewUserUsecase(repo interfaces.UserRepository) *UserUsecase {
-	return &UserUsecase{UserRepository: repo}
+func NewUserUsecase(userRepository domain.UserRepository, timeout time.Duration) domain.UserUsecase {
+	return &UserUsecase{
+		UserRepository: userRepository,
+		contextTimeout: timeout,
+	}
 }
 
-func (u *UserUsecase) CreateUser(user *domain.User) error {
-	return u.UserRepository.CreateUser(user)
+func (u *UserUsecase) Create(c context.Context, user *domain.User) error {
+	ctx, cancel := context.WithTimeout(c, u.contextTimeout)
+	defer cancel()
+	return u.UserRepository.Create(ctx, user)
 }
 
-func (u *UserUsecase) GetUserByID(id string) (*domain.User, error) {
-	return u.UserRepository.GetUserByID(id)
+func (u *UserUsecase) Fetch(c context.Context) ([]domain.User, error) {
+	ctx, cancel := context.WithTimeout(c, u.contextTimeout)
+	defer cancel()
+	return u.UserRepository.Fetch(ctx)
 }
 
-func (u *UserUsecase) UpdateUser(user *domain.User) error {
-	return u.UserRepository.UpdateUser(user)
+func (u *UserUsecase) GetByEmail(c context.Context, email string) (domain.User, error) {
+	ctx, cancel := context.WithTimeout(c, u.contextTimeout)
+	defer cancel()
+	return u.UserRepository.GetByEmail(ctx, email)
 }
 
-func (u *UserUsecase) DeleteUser(id string) error {
-	return u.UserRepository.DeleteUser(id)
+func (u *UserUsecase) GetByID(c context.Context, Id string) (domain.User, error) {
+	ctx, cancel := context.WithTimeout(c, u.contextTimeout)
+	defer cancel()
+	return u.UserRepository.GetByID(ctx, Id)
 }
 
-func (u *UserUsecase) GetAllUsers() ([]domain.User, error) {
-	return u.UserRepository.GetAllUsers()
-}
+// func (u *UserUsecase) UpdateUser(c context.Context, user *domain.User) error {
+// 	ctx, cancel := context.WithTimeout(c, u.contextTimeout)
+// 	defer cancel()
+// 	return u.UserRepository.UpdateUser(user)
+// }
+
+// func (u *UserUsecase) DeleteUser(c context.Context, id string) error {
+// 	ctx, cancel := context.WithTimeout(c, u.contextTimeout)
+// 	defer cancel()
+// 	return u.UserRepository.DeleteUser(id)
+// }
