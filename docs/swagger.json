@@ -1,0 +1,105 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "A QR Code Scanning service API in Go using Gin framework.",
+        "title": "QRcode Scanning API",
+        "contact": {
+            "name": "Jay Pandey",
+            "url": "https://twitter.com/jaypandeyspeaks",
+            "email": "pandeyjp1@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/login": {
+            "post": {
+                "description": "Responds access and refresh token as JSON post login.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NewLoginRouter"
+                ],
+                "summary": "Logs user into the system",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the user email for login",
+                        "name": "email",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "the user password for login",
+                        "name": "password",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/signup": {
+            "post": {
+                "description": "Return access and refresh token as JSON.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NewSignupRouter"
+                ],
+                "summary": "Complete the signup",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the user email for login",
+                        "name": "email",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "the user password for login",
+                        "name": "password",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "the user name for login",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

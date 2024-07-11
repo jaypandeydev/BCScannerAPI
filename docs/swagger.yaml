@@ -1,0 +1,71 @@
+host: localhost:8080
+info:
+  contact:
+    email: pandeyjp1@gmail.com
+    name: Jay Pandey
+    url: https://twitter.com/jaypandeyspeaks
+  description: A QR Code Scanning service API in Go using Gin framework.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: QRcode Scanning API
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Responds access and refresh token as JSON post login.
+      parameters:
+      - description: the user email for login
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: the user password for login
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Logs user into the system
+      tags:
+      - NewLoginRouter
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: Return access and refresh token as JSON.
+      parameters:
+      - description: the user email for login
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: the user password for login
+        in: query
+        name: password
+        required: true
+        type: string
+      - description: the user name for login
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Complete the signup
+      tags:
+      - NewSignupRouter
+swagger: "2.0"
