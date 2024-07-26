@@ -20,9 +20,9 @@ type UserController struct {
 	Env         *config.Env
 }
 
-func NewUserController(userUsecase domain.UserUsecase) *UserController {
-	return &UserController{UserUsecase: userUsecase}
-}
+//func NewUserController(userUsecase domain.UserUsecase) *UserController {
+//	return &UserController{UserUsecase: userUsecase}
+//}
 
 func (ctrl *UserController) Create(c *gin.Context) {
 	var user domain.User
@@ -76,13 +76,3 @@ func (ctrl *UserController) GetByEmail(c *gin.Context) {
 
 	c.JSON(http.StatusOK, users)
 }
-
-// func (ctrl *UserController) DeleteUser(c *gin.Context) {
-// 	id := c.Param("id")
-// 	if err := ctrl.UserUsecase.DeleteUser(id); err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-// 		return
-// 	}
-
-// 	c.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
-// }

@@ -1,9 +1,9 @@
 package router
 
 import (
+	"BCScanner/auth"
 	"time"
 
-	"BCScanner/auth"
 	"BCScanner/config"
 	"BCScanner/infrastructure/mongo"
 
@@ -24,4 +24,5 @@ func Setup(env *config.Env, timeout time.Duration, db mongo.Database, gin *gin.E
 	NewProfileRouter(env, timeout, db, protectedRouter)
 	NewTaskRouter(env, timeout, db, protectedRouter)
 	SetupUserRouter(env, timeout, db, protectedRouter)
+	newQRGenerateRouter(env, timeout, db, protectedRouter)
 }

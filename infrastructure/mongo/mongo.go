@@ -24,6 +24,7 @@ type Database interface {
 type Collection interface {
 	FindOne(context.Context, interface{}) SingleResult
 	InsertOne(context.Context, interface{}) (interface{}, error)
+	InsertOne1(context.Context, interface{}, ...*options.InsertOneOptions) (*InsertOneResult, error)
 	InsertMany(context.Context, []interface{}) ([]interface{}, error)
 	DeleteOne(context.Context, interface{}) (int64, error)
 	Find(context.Context, interface{}, ...*options.FindOptions) (Cursor, error)
@@ -154,6 +155,27 @@ func (mc *mongoCollection) UpdateOne(ctx context.Context, filter interface{}, up
 func (mc *mongoCollection) InsertOne(ctx context.Context, document interface{}) (interface{}, error) {
 	id, err := mc.coll.InsertOne(ctx, document)
 	return id.InsertedID, err
+}
+
+func (mc *mongoCollection) InsertOne1(ctx context.Context, document interface{},
+	opts ...*options.InsertOneOptions) (*InsertOneResult, error) {
+
+	ioOpts := options.MergeInsertOneOptions(opts...)
+	imOpts := options.InsertMany()
+
+	if ioOpts.BypassDocumentValidation != nil && *ioOpts.BypassDocumentValidation {
+		imOpts.SetBypassDocumentValidation(*ioOpts.BypassDocumentValidation)
+	}
+	if ioOpts.Comment != nil {
+		imOpts.SetComment(ioOpts.Comment)
+	}
+	res, err := mc.coll.InsertOne(ctx, document)
+
+	//rr, err := processWriteError(err)
+	if err != nil {
+		return nil, err
+	}
+	return &InsertOneResult{InsertedID: res.InsertedID}, err
 }
 
 func (mc *mongoCollection) InsertMany(ctx context.Context, document []interface{}) ([]interface{}, error) {
